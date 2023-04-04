@@ -15,31 +15,23 @@ jobs:
         shell: bash
         working-directory: dotnet
     steps:
-    # checkout the repo
-    - name: 'Checkout GitHub Action' 
-      uses: actions/checkout@main
-    
-    - name: 'Login via Azure CLI'
-      uses: azure/login@v1
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build Docker image
+      uses: docker/build-push-action@v2
       with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-    
-    - uses: azure/docker-login@v1
-      with:
-        login-server: cloudquicklabsacr.azurecr.io
+        context: .
+        push: true
+        tags: newtestdemo.azurecr.io/myapp:latest
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
-    - run: |
-        docker build . -t cloudquicklabsacr.azurecr.io/myapp:${{ github.sha }}
-        docker push cloudquicklabsacr.azurecr.io/myapp:${{ github.sha }}     
-      
-    - uses: azure/webapps-deploy@v2
+
+    - name: Deploy to Function App
+      uses: Azure/functions-action@v1
       with:
-        app-name: 'CloudQuickLabsWebApp'
-        images: 'cloudquicklabsacr.azurecr.io/myapp:${{ github.sha }}'
-    
-    - name: Azure logout
-      run: |
-        az logout
+        app-name: testing0101
+        package: 'newtestdemo.azurecr.io/myapp:latest'
+        username: ${{ secrets.FUNCTIONS_USERNAME }}
+        password: ${{ secrets.FUNCTIONS_PASSWORD }}
+
