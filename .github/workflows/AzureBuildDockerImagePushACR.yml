@@ -20,3 +20,15 @@ jobs:
     - run: |
         docker build . -t newtestdemo.azurecr.io/myapp:${{ github.sha }}
         docker push newtestdemo.azurecr.io/myapp:${{ github.sha }}
+    - name: deploy into azure funtions
+      uses: Azure/functions-action@v1
+      with:
+        app-name: new-test-demo
+        package: 'newtestdemo.azurecr.io/yourimage:latest'
+        username: ${{ secrets.FUNCTIONS_USERNAME }}
+        password: ${{ secrets.FUNCTIONS_PASSWORD }}
+    - name: Azure logout
+      run: |
+        az logout
+      
+    
