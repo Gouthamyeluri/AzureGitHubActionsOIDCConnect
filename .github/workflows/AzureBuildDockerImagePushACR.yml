@@ -23,7 +23,7 @@ jobs:
     - name: deploy into azure funtions
       uses: Azure/functions-action@v1
       with:
-        app-name: new-test-demo
+        app-name: testing0101
         package: 'newtestdemo.azurecr.io/myapp:latest'
         username: ${{ secrets.FUNCTIONS_USERNAME }}
         password: ${{ secrets.FUNCTIONS_PASSWORD }}
