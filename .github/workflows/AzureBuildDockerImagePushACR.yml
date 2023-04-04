@@ -27,5 +27,6 @@ jobs:
       with:
         app-name: testing0101
         package: 'newtestdemo.azurecr.io/myapp:latest'
+        show-debug-info: true
       
     
