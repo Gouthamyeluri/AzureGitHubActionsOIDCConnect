@@ -18,15 +18,13 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - run: |
-        docker build . -t newtestdemo.azurecr.io/myapp:${{ github.sha }}
-        docker push newtestdemo.azurecr.io/myapp:${{ github.sha }}
+        docker build . -t newtestdemo.azurecr.io/myapp:latest
+        docker push newtestdemo.azurecr.io/myapp:latest
     - name: deploy into azure funtions
       uses: Azure/functions-action@v1
       with:
         app-name: testing0101
         package: 'newtestdemo.azurecr.io/myapp:latest'
-        username: ${{ secrets.FUNCTIONS_USERNAME }}
-        password: ${{ secrets.FUNCTIONS_PASSWORD }}
     - name: Azure logout
       run: |
         az logout
