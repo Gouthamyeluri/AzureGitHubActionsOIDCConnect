@@ -11,7 +11,9 @@ jobs:
         shell: bash
         working-directory: dotnet
     steps:
+
     - uses: actions/checkout@v2
+    
     - uses: azure/docker-login@v1
       with:
         login-server: newtestdemo.azurecr.io
@@ -25,8 +27,5 @@ jobs:
       with:
         app-name: testing0101
         package: 'newtestdemo.azurecr.io/myapp:latest'
-    - name: Azure logout
-      run: |
-        az logout
       
     
