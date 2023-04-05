@@ -2,6 +2,8 @@ name: Deploy Container Image to Azure App Service
 
 on:
   workflow_dispatch:
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'newtestdemo'
 
 permissions:
       id-token: write
@@ -27,11 +29,9 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
 
-    - name: Deploy to Function App
+    - name: Deploy into azure funtions
       uses: Azure/functions-action@v1
       with:
         app-name: testing0101
-        package: 'newtestdemo.azurecr.io/myapp:latest'
-        username: ${{ secrets.FUNCTIONS_USERNAME }}
-        password: ${{ secrets.FUNCTIONS_PASSWORD }}
+        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/myapp'
 

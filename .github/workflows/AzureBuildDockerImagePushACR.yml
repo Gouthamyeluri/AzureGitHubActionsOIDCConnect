@@ -2,8 +2,7 @@ name: Build Linux Container Image and Push to ACR
 
 on:
   workflow_dispatch:
-env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'newtestdemo'
+
 
 jobs:
   build:
@@ -24,10 +23,5 @@ jobs:
     - run: |
         docker build . -t newtestdemo.azurecr.io/myapp:latest
         docker push newtestdemo.azurecr.io/myapp:latest
-    - name: deploy into azure funtions
-      uses: Azure/functions-action@v1
-      with:
-        app-name: testing0101
-        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/myapp'
       
     
